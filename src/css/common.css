@@ -16,3 +16,37 @@ img {
   display: block;
   max-width: 100%;
 }
+.start {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+.start button {
+  border-radius: 25;
+  padding: 10 30;
+}
+
+.timer {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.input-btn {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  gap: 15px;
+}
+
+.input-btn input {
+  padding: 15px 30;
+  border-radius: 15px;
+  border-color: violet;
+}
+
+.input-btn button {
+  padding: 15px 30px;
+  border-radius: 25px;
+  border-color: aqua;
+}
