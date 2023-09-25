@@ -1,34 +1,55 @@
 import 'flatpickr/dist/flatpickr.min.css';
 import flatpickr from 'flatpickr';
+import Notiflix from 'notiflix';
 
 const btn = document.querySelector('button[data-start');
 const timer = document.querySelector('.timer');
+const input = document.querySelector('#datetime-picker');
+const daysEl = document.querySelector('span[data-days]');
+const hoursEl = document.querySelector('span[data-hours]');
+const minEl = document.querySelector('span[data-minutes]');
+const secEl = document.querySelector('span[data-seconds]');
 
 btn.disabled = true;
-btn.addEventListener('click', () => options.onClose());
+btn.addEventListener('click', onClick);
+const currentDate = Date.now();
 
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+  onClose([time]) {
+    if (time < currentDate) {
+      Notiflix.Report.failure(
+        'Error',
+        'Please choose a date in the future',
+        'Ok'
+      );
 
-  onClose(selectedDates) {
-    const currentDate = Date.now();
-
-    if (selectedDates[0] < currentDate) {
-      alert('Please choose a date in the future');
-    } else if (selectedDates[0] > currentDate) {
+      btn.disabled = true;
+    } else {
       btn.disabled = false;
     }
-    setInterval(() => {
-      const exact = Date.now();
-      const delta = exact - currentDate;
-      const components = convertMs(delta);
-      updateInterface(components);
-    }, 1000);
   },
 };
+
+function onClick() {
+  const id = setInterval(() => {
+    const mainDate = new Date();
+    const date = new Date(input.value).getTime();
+    const difference = date - mainDate;
+    const { days, hours, minutes, seconds } = convertMs(difference);
+    daysEl.textContent = `${days}`;
+    hoursEl.textContent = `${hours}`;
+    minEl.textContent = `${minutes}`;
+    secEl.textContent = `${seconds}`;
+    if ((days, hours, minutes, seconds <= 0)) {
+      clearInterval(id);
+      return;
+    }
+  }, 1000);
+}
 
 flatpickr('#datetime-picker', options);
 
@@ -55,12 +76,4 @@ function convertMs(ms) {
   );
 
   return { days, hours, minutes, seconds };
-}
-
-// console.log(convertMs(seconds));
-// console.log(convertMs(140000));
-// console.log(convertMs(24140000));
-
-function updateInterface({ days, hours, minutes, seconds }) {
-  timer.textContent = `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds `;
 }
