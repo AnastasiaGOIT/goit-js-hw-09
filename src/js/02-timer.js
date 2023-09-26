@@ -36,18 +36,15 @@ const options = {
 
 function onClick() {
   const id = setInterval(() => {
-    const mainDate = new Date();
+    const mainDate = Date.now();
     const date = new Date(input.value).getTime();
     const difference = date - mainDate;
     const { days, hours, minutes, seconds } = convertMs(difference);
-    daysEl.textContent = `${days}`;
-    hoursEl.textContent = `${hours}`;
-    minEl.textContent = `${minutes}`;
-    secEl.textContent = `${seconds}`;
     if ((days, hours, minutes, seconds <= 0)) {
       clearInterval(id);
       return;
     }
+    markUp(days, hours, minutes, seconds);
   }, 1000);
 }
 
@@ -76,4 +73,10 @@ function convertMs(ms) {
   );
 
   return { days, hours, minutes, seconds };
+}
+function markUp(days, hours, minutes, seconds) {
+  daysEl.textContent = days;
+  hoursEl.textContent = hours;
+  minEl.textContent = minutes;
+  secEl.textContent = seconds;
 }
